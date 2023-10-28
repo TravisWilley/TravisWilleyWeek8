@@ -11,56 +11,56 @@ import useAuth from '../hooks/useAuth';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import { FaToggleOff, FaToggleOn, FaTrash } from 'react-icons/fa';
-import { deleteTodo, toggleTodoStatus } from '../api/todo';
-const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
+import { deleteGrocery, toggleGroceryStatus } from '../api/grocery';
+const GroceryList = () => {
+  const [grocery, setGrocery] = React.useState([]);
 
   const { user } = useAuth();
   const toast = useToast();
   const refreshData = () => {
     if (!user) {
-      setTodos([]);
+      setList([]);
       return;
     }
-    const q = query(collection(db, 'todo'), where('user', '==', user.uid));
+    const q = query(collection(db, 'grocery'), where('user', '==', user.uid));
 
-    onSnapshot(q, (querySnapshot) => {
+    onSnapshot(q, (querySnapchot) => {
       let ar = [];
-      querySnapshot.docs.forEach((doc) => {
+      querySnapchot.docs.forEach((doc) => {
         ar.push({ id: doc.id, ...doc.data() });
       });
-      setTodos(ar);
+      setGrocery(ar);
     });
   };
 
   useEffect(() => {
     if (!user) {
-      setTodos([]);
+      setGrocery([]);
       return;
     }
-    const q = query(collection(db, 'todo'), where('user', '==', user.uid));
+    const q = query(collection(db, 'grocery'), where('user', '==', user.uid));
 
-    onSnapshot(q, (querySnapshot) => {
+    onSnapshot(q, (querySnapchot) => {
       let ar = [];
-      querySnapshot.docs.forEach((doc) => {
+      querySnapchot.docs.forEach((doc) => {
         ar.push({ id: doc.id, ...doc.data() });
       });
-      setTodos(ar);
+      setGrocery(ar);
     });
   }, [user]);
 
-  const handleTodoDelete = async (id) => {
-    if (confirm('Are you sure you wanna delete this todo?')) {
-      deleteTodo(id);
-      toast({ title: 'Todo deleted successfully', status: 'success' });
+  const handleGroceryDelete = async (id) => {
+    if (confirm('Are you sure you wanna delete this item?')) {
+      deleteGrocery(id);
+      toast({ title: 'Grocery List updated successfully', status: 'success' });
     }
   };
 
   const handleToggle = async (id, status) => {
     const newStatus = status == 'completed' ? 'pending' : 'completed';
-    await toggleTodoStatus({ docId: id, status: newStatus });
+    await toggleGroceryStatus({ docId: id, status: newStatus });
     toast({
-      title: `Todo marked ${newStatus}`,
+      title: `List marked ${newStatus}`,
       status: newStatus == 'completed' ? 'success' : 'warning',
     });
   };
@@ -68,10 +68,10 @@ const TodoList = () => {
   return (
     <Box mt={5}>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-        {todos &&
-          todos.map((todo) => (
+        {grocery &&
+          grocery.map((grocery) => (
             <Box
-              key={todo.id}
+              key={grocery.id}
               p={3}
               boxShadow="2xl"
               shadow={'dark-lg'}
@@ -79,7 +79,7 @@ const TodoList = () => {
               _hover={{ boxShadow: 'sm' }}
             >
               <Heading as="h3" fontSize={'xl'}>
-                {todo.title}{' '}
+                {grocery.title}{' '}
                 <Badge
                   color="red.500"
                   bg="inherit"
@@ -90,12 +90,12 @@ const TodoList = () => {
                   }}
                   float="right"
                   size="xs"
-                  onClick={() => handleTodoDelete(todo.id)}
+                  onClick={() => handleGroceryDelete(grocery.id)}
                 >
                   <FaTrash />
                 </Badge>
                 <Badge
-                  color={todo.status == 'pending' ? 'gray.500' : 'green.500'}
+                  color={grocery.status == 'pending' ? 'gray.500' : 'green.500'}
                   bg="inherit"
                   transition={'0.2s'}
                   _hover={{
@@ -104,19 +104,23 @@ const TodoList = () => {
                   }}
                   float="right"
                   size="xs"
-                  onClick={() => handleToggle(todo.id, todo.status)}
+                  onClick={() => handleToggle(grocery.id, grocery.status)}
                 >
-                  {todo.status == 'pending' ? <FaToggleOff /> : <FaToggleOn />}
+                  {grocery.status == 'pending' ? (
+                    <FaToggleOff />
+                  ) : (
+                    <FaToggleOn />
+                  )}
                 </Badge>
                 <Badge
                   float="right"
                   opacity="0.8"
-                  bg={todo.status == 'pending' ? 'yellow.500' : 'green.500'}
+                  bg={grocery.status == 'pending' ? 'yellow.500' : 'green.500'}
                 >
-                  {todo.status}
+                  {grocery.status}
                 </Badge>
               </Heading>
-              <Text>{todo.description}</Text>
+              <Text>{grocery.description}</Text>
             </Box>
           ))}
       </SimpleGrid>
@@ -124,4 +128,4 @@ const TodoList = () => {
   );
 };
 
-export default TodoList;
+export default GroceryList;
