@@ -7,17 +7,19 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 
-const addItem = async ({ userId, title, description, status }) => {
+const addItem = async ({ title, description, amount, status, userId }) => {
   try {
     await addDoc(collection(db, 'grocery'), {
       user: userId,
+      title: title,
       amount: amount,
-      createdAt: new Date().getTime(),
     });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-const toggleCollected = async ({ docId, status }) => {
+const toggleGroceryStatus = async ({ docId, status }) => {
   try {
     const todoRef = doc(db, 'grocery', docId);
     await updateDoc(todoRef, {
@@ -37,4 +39,4 @@ const deleteItem = async (docId) => {
   }
 };
 
-export { addItem, toggleCollected, deleteItem };
+export { addItem, toggleGroceryStatus, deleteItem };

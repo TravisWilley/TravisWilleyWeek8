@@ -13,6 +13,7 @@ import { addItem } from '../api/grocery';
 const AddItem = () => {
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const [amount, setAmount] = React.useState('');
   const [status, setStatus] = React.useState('pending');
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -34,6 +35,7 @@ const AddItem = () => {
     const grocery = {
       title,
       description,
+      amount,
       status,
       userId: user.uid,
     };
@@ -43,6 +45,7 @@ const AddItem = () => {
     setTitle('');
     setDescription('');
     setStatus('pending');
+    setAmount('');
 
     toast({ title: 'Grocery item added', status: 'success' });
   };
@@ -58,14 +61,14 @@ const AddItem = () => {
 
         <Textarea
           placeholder="Amount"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
         />
 
         <Button
           onClick={() => handleGroceryCreate()}
           disabled={title.length < 1 || description.length < 1 || isLoading}
-          variantColor="teal"
+          variantScheme="teal"
           variant="solid"
         >
           Add

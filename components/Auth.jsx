@@ -58,10 +58,10 @@ const Auth = () => {
         )}
       </Box>
       <Box>
-        <Link href="/AddGroceryItem">Add Grocery Item</Link>
+        <Link href="/add-grocery">Add Grocery Item</Link>
       </Box>
       <Box>
-        <Link href="/GroceryList">Grocery List</Link>
+        <Link href="/grocery">Grocery List</Link>
       </Box>
     </Box>
   );
