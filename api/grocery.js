@@ -1,4 +1,4 @@
-import { db } from '../../Assignment10/firebase';
+import { db } from '../firebase/index';
 import {
   collection,
   addDoc,
@@ -7,7 +7,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 
-const addItem = async ({ title, description, amount, status, userId }) => {
+const addItem = async ({ user: userId, title: title, amount: amount }) => {
   try {
     await addDoc(collection(db, 'grocery'), {
       user: userId,

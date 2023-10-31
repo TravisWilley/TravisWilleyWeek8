@@ -8,7 +8,7 @@ import {
   Select,
   useToast,
 } from '@chakra-ui/react';
-import useAuth from '../../Assignment10/hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 import { addEvent } from '../api/events';
 const AddEvent = () => {
   const [title, setTitle] = React.useState('');

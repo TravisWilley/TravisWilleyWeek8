@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, Button, Flex, Link, Text, useColorMode } from '@chakra-ui/react';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { FaGoogle, FaMoon, FaSun } from 'react-icons/fa';
-import { auth } from '../../Assignment10/firebase';
-import useAuth from '../../Assignment10/hooks/useAuth';
+import { auth } from '../firebase';
+import useAuth from '../hooks/useAuth';
 const Auth = () => {
   const { toggleColorMode, colorMode } = useColorMode();
   const { isLoggedIn, user } = useAuth();
@@ -37,7 +37,7 @@ const Auth = () => {
         <Link href="/add-todo">Add To Do</Link>
       </Box>
       <Box>
-        <Link href="/">List all To Dos</Link>
+        <Link href="/">To Do list</Link>
       </Box>
       <Box textAlign="right">
         <Button onClick={() => toggleColorMode()}>
@@ -62,6 +62,18 @@ const Auth = () => {
       </Box>
       <Box>
         <Link href="/grocery">Grocery List</Link>
+      </Box>
+      <Box>
+        <Link href="/add-contact">Add contact</Link>
+      </Box>
+      <Box>
+        <Link href="/contact">Contact List</Link>
+      </Box>
+      <Box>
+        <Link href="/add-event">Add event</Link>
+      </Box>
+      <Box>
+        <Link href="/event">Event List</Link>
       </Box>
     </Box>
   );

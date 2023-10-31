@@ -7,13 +7,13 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import useAuth from '../../Assignment10/hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from '../../Assignment10/firebase';
+import { db } from '../firebase';
 import { FaToggleOff, FaToggleOn, FaTrash } from 'react-icons/fa';
 import { deleteEvent, toggleEventStatus } from '../api/events';
 const EventList = () => {
-  const [grocery, setEvent] = React.useState([]);
+  const [event, setEvent] = React.useState([]);
 
   const { user } = useAuth();
   const toast = useToast();
@@ -38,7 +38,7 @@ const EventList = () => {
       setEvent([]);
       return;
     }
-    const q = query(collection(db, 'event'), where('user', '==', user.uid));
+    const q = query(collection(db, 'events'), where('user', '==', user.uid));
 
     onSnapshot(q, (querySnapchot) => {
       let ar = [];
@@ -95,7 +95,7 @@ const EventList = () => {
                   <FaTrash />
                 </Badge>
                 <Badge
-                  color={grocery.status == 'pending' ? 'gray.500' : 'green.500'}
+                  color={event.status == 'pending' ? 'gray.500' : 'green.500'}
                   bg="inherit"
                   transition={'0.2s'}
                   _hover={{

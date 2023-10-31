@@ -7,14 +7,11 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import useAuth from '../../Assignment10/hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from '../../Assignment10/firebase';
+import { db } from '../firebase';
 import { FaToggleOff, FaToggleOn, FaTrash } from 'react-icons/fa';
-import {
-  deleteContact,
-  toggleContactStatus,
-} from '../../Assignment10/api/contacts';
+import { deleteContact, toggleContactStatus } from '../api/contacts';
 const ContactList = () => {
   const [contact, setContact] = React.useState([]);
 
@@ -41,7 +38,7 @@ const ContactList = () => {
       setContact([]);
       return;
     }
-    const q = query(collection(db, 'contact'), where('user', '==', user.uid));
+    const q = query(collection(db, 'contacts'), where('user', '==', user.uid));
 
     onSnapshot(q, (querySnapchot) => {
       let ar = [];

@@ -7,9 +7,9 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import useAuth from '../../Assignment10/hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from '../../Assignment10/firebase';
+import { db } from '../firebase';
 import { FaToggleOff, FaToggleOn, FaTrash } from 'react-icons/fa';
 import { deleteGrocery, toggleGroceryStatus } from '../api/grocery';
 const GroceryList = () => {

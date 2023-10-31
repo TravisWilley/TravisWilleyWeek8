@@ -8,9 +8,10 @@ import {
   Select,
   useToast,
 } from '@chakra-ui/react';
-import useAuth from '../../Assignment10/hooks/useAuth';
-import { addContact } from '../../Assignment10/api/contacts';
+import useAuth from '../hooks/useAuth';
+import { addContact } from '../api/contacts';
 const AddContact = () => {
+  const [title, setTitle] = React.useState('');
   const [name, setName] = React.useState('');
   const [number, setNumber] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -32,6 +33,7 @@ const AddContact = () => {
     }
     setIsLoading(true);
     const event = {
+      title: title,
       userId: user.uid,
       name: name,
       number: number,
@@ -40,6 +42,7 @@ const AddContact = () => {
     await addContact(event);
     setIsLoading(false);
 
+    setTitle('');
     setName('');
     setNumber('');
     setEmail('');
@@ -70,7 +73,7 @@ const AddContact = () => {
 
         <Button
           onClick={() => handleContactCreate()}
-          disabled={title.length < 1 || description.length < 1 || isLoading}
+          disabled={title.length < 1 || title.length < 1 || isLoading}
           variantScheme="teal"
           variant="solid"
         >
