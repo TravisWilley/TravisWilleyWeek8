@@ -1,4 +1,4 @@
-import { db } from '../firebase';
+import { db } from '../../Assignment10/firebase';
 import {
   collection,
   addDoc,

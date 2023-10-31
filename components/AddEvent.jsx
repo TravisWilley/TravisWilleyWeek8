@@ -9,21 +9,21 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import useAuth from '../../Assignment10/hooks/useAuth';
-import { addTodo } from '../api/todo';
-const AddTodo = () => {
+import { addEvent } from '../api/events';
+const AddEvent = () => {
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
-  const [status, setStatus] = React.useState('pending');
+  const [date, setDate] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
 
   const toast = useToast();
 
   const { isLoggedIn, user } = useAuth();
 
-  const handleTodoCreate = async () => {
+  const handleEventCreate = async () => {
     if (!isLoggedIn) {
       toast({
-        title: 'You must be logged in to create a todo',
+        title: 'You must be logged in to create an event',
         status: 'error',
         duration: 9000,
         isClosable: true,
@@ -31,20 +31,20 @@ const AddTodo = () => {
       return;
     }
     setIsLoading(true);
-    const todo = {
-      title,
-      description,
-      status,
+    const event = {
       userId: user.uid,
+      title: title,
+      description: description,
+      date: date,
     };
-    await addTodo(todo);
+    await addEvent(event);
     setIsLoading(false);
 
     setTitle('');
     setDescription('');
-    setStatus('pending');
+    setDate('');
 
-    toast({ title: 'Todo created successfully', status: 'success' });
+    toast({ title: 'Event created successfully', status: 'success' });
   };
 
   return (
@@ -62,23 +62,14 @@ const AddTodo = () => {
           onChange={(e) => setDescription(e.target.value)}
         />
 
-        <Select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option
-            value={'pending'}
-            style={{ color: 'yellow', fontWeight: 'bold' }}
-          >
-            Pending ⌛
-          </option>
-          <option
-            value={'completed'}
-            style={{ color: 'green', fontWeight: 'bold' }}
-          >
-            Completed ✅
-          </option>
-        </Select>
+        <Textarea
+          placeholder="Date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
 
         <Button
-          onClick={() => handleTodoCreate()}
+          onClick={() => handleEventCreate()}
           disabled={title.length < 1 || description.length < 1 || isLoading}
           variantScheme="teal"
           variant="solid"
@@ -90,4 +81,4 @@ const AddTodo = () => {
   );
 };
 
-export default AddTodo;
+export default AddEvent;
